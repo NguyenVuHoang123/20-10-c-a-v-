@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Tình 20/10</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffd6e8 0%, #ffe6f0 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Trái tim bay */
+        .heart {
+            position: absolute;
+            font-size: 50px;
+            animation: float 6s infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Bì thư */
+        .envelope {
+            position: relative;
+            width: 320px;
+            height: 200px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff99c8 0%, #ffb3d9 100%);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .envelope-front {
+            position: absolute;
+            width: 0;
+            height: 0;
+            top: 0;
+            left: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 120px solid #ff6ba8;
+            transform-origin: top center;
+            transition: transform 0.8s;
+            z-index: 3;
+        }
+
+        .envelope.open .envelope-front {
+            transform: rotateX(180deg);
+        }
+
+        /* Nút mở */
+        .open-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: #ff6ba8;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 4;
+            transition: all 0.3s;
+        }
+
+        .open-button:hover {
+            background: #ff6ba8;
+            color: white;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .envelope.open .open-button {
+            display: none;
+        }
+
+        /* Lá thư */
+        .letter {
+            position: absolute;
+            width: 280px;
+            height: 350px;
+            background: #fff9f0;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: all 0.8s;
+            z-index: 5;
+            overflow-y: auto;
+        }
+
+        .envelope.open .letter {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .letter-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #4a4a4a;
+            text-align: left;
+        }
+
+        .letter-content p {
+            margin-bottom: 15px;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 20px;
+            font-style: italic;
+            color: #ff6ba8;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .envelope {
+                width: 280px;
+                height: 180px;
+            }
+
+            .envelope-front {
+                border-left: 140px solid transparent;
+                border-right: 140px solid transparent;
+                border-top: 110px solid #ff6ba8;
+            }
+
+            .letter {
+                width: 90%;
+                max-width: 300px;
+                height: 400px;
+                padding: 25px;
+            }
+
+            .letter-content {
+                font-size: 15px;
+            }
+
+            .open-button {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="envelope" id="envelope">
+        <div class="envelope-back"></div>
+        <div class="envelope-front"></div>
+        <button class="open-button" id="openBtn">MỞ THƯ ❤️</button>
+        <div class="letter">
+            <div class="letter-content">
+                <p>Chúc em 20-10 ❤️ này lại có anh bên cạnh 1 năm nữa, chúc em hôm nay có 1 ngày thật là vui và ý nghĩa khi có anh bên cạnh em nhé.❤️❤️❤️</p>
+                <p class="signature">Mãi yêu vợ nhoaaaa ❤️</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tạo trái tim bay
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heart.style.fontSize = (Math.random() * 20 + 30) + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        setInterval(createHeart, 500);
+
+        // Mở thư
+        const envelope = document.getElementById('envelope');
+        const openBtn = document.getElementById('openBtn');
+
+        openBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            envelope.classList.add('open');
+        });
+
+        envelope.addEventListener('click', function() {
+            if (!envelope.classList.contains('open')) {
+                envelope.classList.add('open');
+            }
+        });
+    </script>
+</body>
+</html>
